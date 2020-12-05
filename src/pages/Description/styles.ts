@@ -14,7 +14,7 @@ export const WrapperPoster = styled.View`
 
 export const Title = styled.Text`
   color: ${theme.font};
-  font-size: 24px;
+  font-size: 32px;
   font-weight: bold;
   text-align: center;
 `;

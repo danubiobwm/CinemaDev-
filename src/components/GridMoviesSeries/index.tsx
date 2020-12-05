@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Text,
   Dimensions,
   FlatList,
   Image,
@@ -47,6 +48,7 @@ const GridMoviesSeries: React.FC<GridMoviesSeriesProps> = ({ data }) => {
               <Image source={{ uri: movie.Poster }} style={styles.img} />
               <WrapperDescription>
                 <Name>{movie.Title}</Name>
+                
                 <Year>{movie.Year}</Year>
               </WrapperDescription>
             </View>

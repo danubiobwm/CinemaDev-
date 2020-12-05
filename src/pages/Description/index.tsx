@@ -1,15 +1,17 @@
-import React, { useEffect } from 'react';
-import { Image, StyleSheet } from 'react-native';
-import { Container, WrapperPoster, Title, Year, Text } from './styles';
-import { ScrollView } from 'react-native-gesture-handler';
+import React, {useEffect} from 'react';
+import {Image, StyleSheet} from 'react-native';
+import {Container, WrapperPoster, Title, Year, Text} from './styles';
+import {ScrollView} from 'react-native-gesture-handler';
 
-import { useMoviesSeries } from '../../hooks/MoviesSeries';
+import {useMoviesSeries} from '../../hooks/MoviesSeries';
 
 import Loader from '../../components/Loader';
 
-const Description: React.FC = ({ route }) => {
-  const { id } = route.params;
-  const { searchMovieId, descriptionMovie, load } = useMoviesSeries();
+
+
+const Description: React.FC = ({route}) => {
+  const {id} = route.params;
+  const {searchMovieId, descriptionMovie, load} = useMoviesSeries();
 
   useEffect(() => {
     async function search() {
@@ -47,8 +49,10 @@ const Description: React.FC = ({ route }) => {
           {descriptionMovie.Actors && (
             <Text>Actors: {descriptionMovie.Actors}</Text>
           )}
+         
         </ScrollView>
       )}
+    
     </Container>
   );
 };
