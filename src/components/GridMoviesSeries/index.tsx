@@ -1,6 +1,5 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
-  Text,
   Dimensions,
   FlatList,
   Image,
@@ -8,15 +7,16 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { Container, WrapperDescription, Name, Year } from './styles';
+import {Container, WrapperDescription, Name, Year} from './styles';
 
-import { MoviesProps, useMoviesSeries } from '../../hooks/MoviesSeries';
+import {MoviesProps, useMoviesSeries} from '../../hooks/MoviesSeries';
 
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 import theme from '../../utils/theme';
+import Ratings from '../StartRating';
 
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 const numberGrid = 2;
 const itemWidth = (width - 32) / numberGrid;
 
@@ -24,9 +24,29 @@ interface GridMoviesSeriesProps {
   data: MoviesProps[];
 }
 
-const GridMoviesSeries: React.FC<GridMoviesSeriesProps> = ({ data }) => {
+type SurveyState = {
+  id?: number;
+  punctual?: string;
+  otherProjectIndication?: number;
+  otherProjectIndicationJustification?: string;
+};
+
+const GridMoviesSeries: React.FC<GridMoviesSeriesProps> = ({data}) => {
+  const [state, setState] = useState({});
+
   const navigation = useNavigation();
-  const { loadMoreMovies } = useMoviesSeries();
+  const {loadMoreMovies} = useMoviesSeries();
+
+  function handleRatingChangeFor(prop: string) {
+    return function handleRatingChange(stars: number): void {
+      setState({
+        ...state,
+        [prop]: stars,
+        ...(stars > 2 ? {[`${prop}Justification`]: ''} : {}),
+      });
+    };
+  }
+
   return (
     <Container testID="grid">
       <FlatList
@@ -35,20 +55,23 @@ const GridMoviesSeries: React.FC<GridMoviesSeriesProps> = ({ data }) => {
         keyExtractor={(movie) => movie.imdbID}
         onEndReached={loadMoreMovies}
         onEndReachedThreshold={0.4}
-        renderItem={({ item: movie }) => (
+        renderItem={({item: movie}) => (
           <TouchableWithoutFeedback
             testID="movie"
             onPress={() =>
               navigation.navigate('Description', {
                 id: movie.imdbID,
               })
-            }
-          >
+            }>
             <View style={styles.wrapper}>
-              <Image source={{ uri: movie.Poster }} style={styles.img} />
+              <Image source={{uri: movie.Poster}} style={styles.img} />
               <WrapperDescription>
                 <Name>{movie.Title}</Name>
-                
+                <Ratings
+                  stars={state.selectStars}
+                  onChange={handleRatingChangeFor('selectStars')}
+                  disabled={!!state.id}
+                />
                 <Year>{movie.Year}</Year>
               </WrapperDescription>
             </View>
