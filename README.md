@@ -1,4 +1,4 @@
-# Search Movies here!
+# CinemaDev, search Movies here!
 
 > Application that consumes the OMDB API
 

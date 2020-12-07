@@ -35,6 +35,7 @@ const Description: React.FC = ({route}) => {
             />
 
             <Title>{descriptionMovie.Title}</Title>
+            
             <Year>
               {descriptionMovie.Year} - {descriptionMovie.Runtime}
             </Year>
